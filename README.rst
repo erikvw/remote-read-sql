@@ -13,7 +13,7 @@ Installation
 Usage
 -----
 
-In this example, `remote_read_sql` opens an ssh tunnel and connects to the mysql server locally on port 3306. The SQL query is sanitized and passed to pandas `read_sql`.
+In this example, ``remote_read_sql`` opens an ssh tunnel and connects to the mysql server locally on port 3306. The SQL query is sanitized and passed to ``pandas`` ``read_sql``.
 
 After reading the data into the dataframe, the ssh and db connections are closed.
 
@@ -79,9 +79,9 @@ To run a single query and return a Dataframe, pass the SQL query to ``remote_rea
 Running multiple queries
 ++++++++++++++++++++++++
 
-When running ``remote_read_sql`` with the SQL query as above, the connection closes immediately after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_read_sql`` as a context manager. As a context manager, ``remote_read_sql`` opens the connection, you run ``pd.read_sql()`` for multiple queries within the ``with`` statement. Once you leave the ``with`` statement, ``remote_read_sql`` closes the connection.
+When running ``remote_read_sql`` with the SQL query as above, the connection closes immediately after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_read_sql`` as a context manager. As a context manager, ``remote_read_sql`` opens the connection but does not run any SQL. Instead you call ``pd.read_sql()`` for multiple SQL queries within the ``with`` statement. Once you leave the ``with`` statement, ``remote_read_sql`` closes the connection.
 
-For ``remote_read_sql`` to work as a context manager, the SQL query is not passed to `remote_read_sql`:
+For ``remote_read_sql`` to work as a context manager, use a ``with`` statement and do not pass an SQL statement to `remote_read_sql`:
 
 .. code-block:: python
 
