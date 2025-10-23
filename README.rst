@@ -1,10 +1,6 @@
 Remote read_sql
 ===============
 
-Homepage: https://github.com/erikvw/remote-read-sql
-
-Source code: https://github.com/erikvw/remote-read-sql
-
 Read SQL into a pandas data frame from a remote server
 
 Installation
