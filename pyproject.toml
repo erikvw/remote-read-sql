@@ -1,6 +1,6 @@
 [project]
 name = "remote-read-sql"
-version = "1.0.1"
+version = "1.0.2"
 description = "Securely read sql into a pandas dataframe from a remote mysql DB"
 readme = "README.rst"
 keywords = ["pandas", "ssh", "mysql", "remote", "dataframe"]
@@ -14,7 +14,7 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "mysql-connector-python>=9.5.0",
     "pandas>=2.3.3",
