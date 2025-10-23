@@ -1,8 +1,8 @@
 [project]
 name = "remote-read-sql"
-version = "1.0.0"
+version = "1.0.1"
 description = "Securely read sql into a pandas dataframe from a remote mysql DB"
-readme = "README.md"
+readme = "README.rst"
 keywords = ["pandas", "ssh", "mysql", "remote", "dataframe"]
 authors = [
     { name = "Erik van Widenfelt", email = "ew2789@gmail.com" },
@@ -22,6 +22,7 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "sphinx>=8.2.3",
     "sqlalchemy>=2.0.44",
+    "sqlglot>=27.28.1",
 ]
 
 [build-system]
