@@ -4,16 +4,19 @@ import configparser
 import contextlib
 import sys
 from pathlib import Path
+from urllib.parse import quote_plus
 
-import mysql.connector
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
 
 
 @contextlib.contextmanager
 def get_db_connection(
-    ssh_conn,
     my_cnf_path: Path,
-    local_bind_port: int | None = None,
-    db_name: str | None = None,
+    *,
+    local_bind_port: int,
+    connection_name: str,
+    db_name: str,
 ):
     """Connect to mysql via tunnel"""
 
@@ -25,24 +28,24 @@ def get_db_connection(
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    db_user = config["client"]["user"]
-    db_password = config["client"]["password"]
-    db_host = config["client"]["host"]
+    db_user = config[connection_name]["user"]
+    db_password = config[connection_name]["password"]
+    db_host = config[connection_name]["host"]
+
+    db_password = quote_plus(db_password)
 
     sys.stdout.write(f"\nUser: {db_user}\n")
-    sys.stdout.write(f"Host: {db_host}\n")
+    sys.stdout.write(f"Host: {db_host}:{local_bind_port}\n")
+
+    database_url = (
+        f"mysql+mysqldb://{db_user}:{db_password}@{db_host}:{local_bind_port}/{db_name}"
+    )
+    sys.stdout.write(database_url)
 
     try:
-        db_conn = mysql.connector.connect(
-            host=db_host,
-            port=local_bind_port or 3306,
-            user=db_user,
-            password=db_password,
-            database=db_name,
-        )
-        sys.stdout.write("MySQL connection successful!\n")
-        yield db_conn
+        engine: Engine = create_engine(database_url)
+        with engine.connect() as db_conn:
+            sys.stdout.write("MySQL connection successful!\n")
+            yield db_conn
     finally:
-        if "db_conn" in locals() and db_conn.is_connected():
-            db_conn.close()
-            sys.stdout.write("MySQL connection closed.\n")
+        pass

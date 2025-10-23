@@ -26,9 +26,10 @@ After reading the data into the dataframe, the ssh and db connections are closed
 
     # combine kwargs into a dictionary
     opts = {
-        "ssh_config": ssh_config,
+        "ssh_config_path": ssh_config,
         "my_cnf_path": my_cnf_path,
-        "db_name": db_name
+        "db_name": db_name,
+        "allow_missing_host_keys": True,
     }
 
     # open ssh, open db connection, read sql into dataframe, close connections
