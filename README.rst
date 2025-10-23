@@ -32,7 +32,7 @@ After reading the data into the dataframe, the ssh and db connections are closed
         "db_name": db_name,
     }
 
-    # open ssh, open db connection, read sql into dataframe, close connections
+    # open ssh, open db, read sql into dataframe, close db, close ssh
     df = remote_read_sql("SELECT * FROM subject_glucose", **opts)
 
     # inspect the dataframe
