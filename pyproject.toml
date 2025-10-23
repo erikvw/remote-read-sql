@@ -16,13 +16,14 @@ license = "MIT"
 license-files = ["LICEN[CS]E*"]
 requires-python = ">=3.12"
 dependencies = [
-    "mysql-connector-python>=9.5.0",
+    "mysqlclient>=2.2.7",
     "pandas>=2.3.3",
-    "paramiko>=4.0.0",
+    "paramiko==2.9.3",
     "python-dotenv>=1.1.1",
     "sphinx>=8.2.3",
     "sqlalchemy>=2.0.44",
     "sqlglot>=27.28.1",
+    "sshtunnel>=0.4.0",
 ]
 
 [build-system]

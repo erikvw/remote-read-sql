@@ -18,19 +18,25 @@ def remote_read_sql(
     *,
     ssh_config_path: Path,
     my_cnf_path: Path,
-    db_name: str,
-    sql_read_type: str | None = None,
+    my_cnf_connection_name: str,
+    db_name: str | None = None,
 ) -> pd.DataFrame:
     """Read sql query into dataframe via ssh tunnel and mysql connection."""
     df = None
-    sql_read_type = sql_read_type or "mysql"
-    parsed = parse_one(sql_query, read=sql_read_type)
+    parsed = parse_one(sql_query, read="mysql")
     if not isinstance(parsed, exp.Select):
         raise InvalidSqlQueryError("Only SELECT statements are allowed.")
-    with get_ssh_connection(ssh_config_path) as ssh_conn:  # noqa: SIM117
-        with get_db_connection(ssh_conn, my_cnf_path, db_name=db_name) as db_conn:
-            try:
-                df = pd.read_sql(sql_query, con=db_conn)
-            except OperationalError as e:
-                sys.stdout.write(f"Error executing query: {e}\n")
+    with (
+        get_ssh_connection(ssh_config_path) as local_bind_port,
+        get_db_connection(
+            my_cnf_path,
+            local_bind_port=local_bind_port,
+            connection_name=my_cnf_connection_name,
+            db_name=db_name,
+        ) as db_conn,
+    ):
+        try:
+            df = pd.read_sql(sql_query, con=db_conn)
+        except OperationalError as e:
+            sys.stdout.write(f"Error executing query: {e}\n")
     return df

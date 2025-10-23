@@ -1,14 +1,16 @@
 import contextlib
 import sys
+from collections.abc import Generator
 from pathlib import Path
+from typing import Any
 
-import paramiko
 from dotenv import dotenv_values
+from sshtunnel import SSHTunnelForwarder
 
 
 @contextlib.contextmanager
-def get_ssh_connection(ssh_config_path: Path):
-    """Open ssh tunnel"""
+def get_ssh_connection(ssh_config_path: Path) -> Generator[int, Any, None]:
+    """Open ssh tunnel using sshtunnel forwarder."""
 
     ssh_config_path = Path(ssh_config_path).expanduser()
     if not ssh_config_path.exists():
@@ -28,21 +30,22 @@ def get_ssh_connection(ssh_config_path: Path):
         if var not in ["SSH_KEY_PASS"]:
             sys.stdout.write(f"{var}: {val}\n")
 
-    client = paramiko.SSHClient()
-    # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.set_missing_host_key_policy(paramiko.RejectPolicy())
-    k = paramiko.RSAKey.from_private_key_file(str(ssh_key_path), password=ssh_key_pass)
+    server = SSHTunnelForwarder(
+        (ssh_server, 22),
+        ssh_username=ssh_user,
+        ssh_pkey=str(ssh_key_path),
+        ssh_private_key_password=ssh_key_pass,
+        remote_bind_address=(remote_host, remote_db_port),
+        local_bind_address=("127.0.0.1", local_bind_port),
+        set_keepalive=10,
+    )
+
     try:
-        client.connect(hostname=ssh_server, username=ssh_user, pkey=k, port=22)
-        transport = client.get_transport()
-        transport.set_keepalive(10)
-        transport.open_channel(
-            "direct-tcpip",
-            (remote_host, remote_db_port),
-            ("127.0.0.1", local_bind_port),
-        )
+        server.start()
         sys.stdout.write("\nSSH tunnel established successfully.\n")
-        yield client
+        sys.stdout.write(f"Local port bound: {server.local_bind_port}.\n")
+        yield server.local_bind_port
     finally:
-        client.close()
-        sys.stdout.write("SSH tunnel closed.\n")
+        if server.is_active:
+            server.stop()
+            sys.stdout.write("SSH tunnel closed.\n")
