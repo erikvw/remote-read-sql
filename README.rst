@@ -28,7 +28,7 @@ Preparing your credentials
     db_name = "my_database"
 
     # combine kwargs into a dictionary
-    opts = {
+    conn_opts = {
         "ssh_config_path": ssh_config,
         "my_cnf_path": my_cnf_path,
         "my_cnf_connection_name": "remote_server",
@@ -41,7 +41,7 @@ Running a single query
 .. code-block:: python
 
     # open ssh, open db, read sql into dataframe, close db, close ssh
-    df = remote_read_sql("SELECT * FROM subject_glucose", **opts)
+    df = remote_read_sql("SELECT * FROM subject_glucose", **conn_opts)
 
     # inspect the dataframe
     df.head()
@@ -50,12 +50,14 @@ Running a single query
 Running multiple queries
 ++++++++++++++++++++++++
 
-.. code-block:: python
 
 You can use `remote_read_sql` as a context manager to open a connection and run multiple queries.
-.. code-block::
 
-    with  remote_read_sql(**opts) as db_conn:
+For this to work, the SQL query is not passed to `remote_read_sql`:
+
+.. code-block:: python
+
+    with  remote_read_sql(**conn_opts) as db_conn:
         df_glucose = pd.read_sql("SELECT * FROM subject_glucose", db_conn)
         df_bp = pd.read_sql("SELECT * FROM subject_bp", db_conn)
 
