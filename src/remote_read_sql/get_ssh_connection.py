@@ -26,10 +26,13 @@ def get_ssh_connection(ssh_config_path: Path) -> Generator[int, Any, None]:
     remote_db_port = int(config["REMOTE_DB_PORT"])
     ssh_key_pass = config.get("SSH_KEY_PASS", None)
 
-    for var, val in config.items():
-        if var not in ["SSH_KEY_PASS"]:
-            sys.stdout.write(f"{var}: {val}\n")
-
+    # for var, val in config.items():
+    #     if var not in ["SSH_KEY_PASS"]:
+    #         sys.stdout.write(f"{var}: {val}\n")
+    sys.stdout.write(
+        f"SSH: Creating tunnel {ssh_server}->{local_bind_port}:"
+        f"{remote_host}:{remote_db_port}\n"
+    )
     server = SSHTunnelForwarder(
         (ssh_server, 22),
         ssh_username=ssh_user,
@@ -42,10 +45,10 @@ def get_ssh_connection(ssh_config_path: Path) -> Generator[int, Any, None]:
 
     try:
         server.start()
-        sys.stdout.write("\nSSH tunnel established successfully.\n")
-        sys.stdout.write(f"Local port bound: {server.local_bind_port}.\n")
+        sys.stdout.write("SSH: Tunnel established.\n")
+        # sys.stdout.write(f"Local port bound: {server.local_bind_port}.\n")
         yield server.local_bind_port
     finally:
         if server.is_active:
             server.stop()
-            sys.stdout.write("SSH tunnel closed.\n")
+            sys.stdout.write("SSH: Tunnel closed.\n")

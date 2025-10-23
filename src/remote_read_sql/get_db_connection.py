@@ -34,18 +34,14 @@ def get_db_connection(
 
     db_password = quote_plus(db_password)
 
-    sys.stdout.write(f"\nUser: {db_user}\n")
-    sys.stdout.write(f"Host: {db_host}:{local_bind_port}\n")
-
-    database_url = (
-        f"mysql+mysqldb://{db_user}:{db_password}@{db_host}:{local_bind_port}/{db_name}"
-    )
-    sys.stdout.write(database_url)
+    sys.stdout.write(f"DB:  Connecting as {db_user}@{db_host}:{local_bind_port}\n")
 
     try:
-        engine: Engine = create_engine(database_url)
+        engine: Engine = create_engine(
+            f"mysql+mysqldb://{db_user}:{db_password}@{db_host}:{local_bind_port}/{db_name}"
+        )
         with engine.connect() as db_conn:
-            sys.stdout.write("MySQL connection successful!\n")
+            sys.stdout.write("DB:  Connected.\n")
             yield db_conn
     finally:
-        pass
+        sys.stdout.write("DB:  Connection closed.\n")
