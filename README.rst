@@ -65,11 +65,11 @@ Since you may be calling ``remote_read_sql`` several times in the same notebook,
 Running a single query
 ++++++++++++++++++++++
 
-To run a single query and return a Dataframe, pass the SQL query to ``remote_read_sql`` along with your ``conn_opts`` from above. The SQL query can be any valid SELECT statement.
+To run a single query and return a Dataframe, pass the SQL query to ``remote_read_sql`` along with your ``conn_opts`` from above. The SQL query must be a valid SELECT query.
 
 .. code-block:: python
 
-    # open ssh, open db, read sql into dataframe, close db, close ssh
+    # open ssh, open db, read SQL into dataframe, close db, close ssh
     df = remote_read_sql("SELECT * FROM subject_glucose", **conn_opts)
 
     # inspect the dataframe
@@ -79,18 +79,25 @@ To run a single query and return a Dataframe, pass the SQL query to ``remote_rea
 Running multiple queries
 ++++++++++++++++++++++++
 
-When running ``remote_read_sql`` with the SQL query as above, the connection closes immediately after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_read_sql`` as a context manager. As a context manager, ``remote_read_sql`` opens the connection but does not run any SQL. Instead you call ``pd.read_sql()`` for multiple SQL queries within the ``with`` statement. Once you leave the ``with`` statement, ``remote_read_sql`` closes the connection.
+When running ``remote_read_sql`` with the SQL query as above, the connection closes immediately after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_connect`` as a context manager.
 
-For ``remote_read_sql`` to work as a context manager, use a ``with`` statement and do not pass an SQL statement to `remote_read_sql`:
+* ``remote_connect`` opens the connection.
+* call ``pd.read_sql()`` for multiple SQL queries within the ``with`` statement
+* Once you leave the ``with`` statement, ``remote_connect`` closes the connection.
+
+If you have read/write permissions to your database, you may want to pass your query through ``safe_sql`` before you pass it to pandas ``read_sql``.
 
 .. code-block:: python
 
-    with  remote_read_sql(**conn_opts) as db_conn:
+    import pandas as pd
+    from remote_read_sql import remote_connect, safe_sql
+
+    with remote_connect(**conn_opts) as db_conn:
         # connection db_conn is open
         # read sql
-        df_glucose = pd.read_sql("SELECT * FROM subject_glucose", db_conn)
+        df_glucose = pd.read_sql(safe_sql("SELECT * FROM subject_glucose"), db_conn)
         # read sql
-        df_bp = pd.read_sql("SELECT * FROM subject_bp", db_conn)
+        df_bp = pd.read_sql(safe_sql("SELECT * FROM subject_bp"), db_conn)
 
     # connection db_conn is closed
     # view your Dataframes
