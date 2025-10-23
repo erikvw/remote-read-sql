@@ -22,14 +22,14 @@ After reading the data into the dataframe, the ssh and db connections are closed
     # change to your own paths
     ssh_config = Path("~/.my_ssh_config")
     my_cnf_path = Path("~/.my.cnf")
-    db_name = "production"
+    db_name = "my_database"
 
     # combine kwargs into a dictionary
     opts = {
         "ssh_config_path": ssh_config,
         "my_cnf_path": my_cnf_path,
+        "my_cnf_connection_name": "remote_server",
         "db_name": db_name,
-        "allow_missing_host_keys": True,
     }
 
     # open ssh, open db connection, read sql into dataframe, close connections
