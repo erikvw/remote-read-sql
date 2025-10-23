@@ -79,7 +79,7 @@ To run a single query and return a Dataframe, pass the SQL query to ``remote_rea
 Running multiple queries
 ++++++++++++++++++++++++
 
-When running ``remote_read_sql`` with the SQL query as above, the connection closes immediatly after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_read_sql` as a context manager to open a connection and run multiple queries and then close the connection.
+When running ``remote_read_sql`` with the SQL query as above, the connection closes immediately after running the SQL statement. If you want to run several SQL queries using the same connection, use ``remote_read_sql`` as a context manager. As a context manager, ``remote_read_sql`` opens the connection, you run ``pd.read_sql()`` for multiple queries within the ``with`` statement. Once you leave the ``with`` statement, ``remote_read_sql`` closes the connection.
 
 For ``remote_read_sql`` to work as a context manager, the SQL query is not passed to `remote_read_sql`:
 
