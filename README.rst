@@ -1,3 +1,5 @@
+|pypi| |uv| |ruff| |downloads|
+
 Remote read_sql
 ===============
 
@@ -103,3 +105,17 @@ If you have read/write permissions to your database, you may want to pass your q
     # view your Dataframes
     df_glucose.head()
     df_bp.head()
+
+.. |pypi| image:: https://img.shields.io/pypi/v/remote-read-sql.svg
+    :target: https://pypi.python.org/pypi/remote-read-sql
+
+.. |uv| image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json
+  :target: https://github.com/astral-sh/uv
+
+.. |ruff| image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+    :target: https://github.com/astral-sh/ruff
+    :alt: Ruff
+
+.. |downloads| image:: https://pepy.tech/badge/remote-read-sql
+   :target: https://pepy.tech/project/remote-read-sql
+
