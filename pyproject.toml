@@ -1,6 +1,6 @@
 [project]
 name = "remote-read-sql"
-version = "1.1.2"
+version = "1.2.0"
 description = "Securely read sql into a pandas dataframe from a remote mysql DB"
 readme = "README.rst"
 keywords = ["pandas", "ssh", "mysql", "remote", "dataframe"]
