@@ -17,7 +17,7 @@ In this example, `remote_read_sql` opens an ssh tunnel and connects to the mysql
 
 After reading the data into the dataframe, the ssh and db connections are closed.
 
-Preparing your cerdentials
+Preparing your credentials
 ++++++++++++++++++++++++++
 
 .. code-block:: python
