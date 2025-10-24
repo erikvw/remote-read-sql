@@ -1,6 +1,6 @@
 [project]
 name = "remote-read-sql"
-version = "1.2.1"
+version = "1.2.2"
 description = "Securely read sql into a pandas dataframe from a remote mysql DB"
 readme = "README.rst"
 keywords = ["pandas", "ssh", "mysql", "remote", "dataframe"]
@@ -20,7 +20,6 @@ dependencies = [
     "pandas>=2.3.3",
     "paramiko==2.9.3",
     "python-dotenv>=1.1.1",
-    "sphinx>=8.2.3",
     "sqlalchemy>=2.0.44",
     "sqlglot>=27.28.1",
     "sshtunnel>=0.4.0",
