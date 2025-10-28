@@ -10,11 +10,13 @@ authors = [
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "mysqlclient>=2.2.7",
     "pandas>=2.3.3",
