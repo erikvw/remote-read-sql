@@ -634,7 +634,7 @@ wheels = [
 
 [[package]]
 name = "remote-read-sql"
-version = "1.2.3"
+version = "1.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "mysqlclient" },
