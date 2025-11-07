@@ -1,14 +1,14 @@
+from __future__ import annotations
+
 import contextlib
 from pathlib import Path
-
-import pandas as pd
+from typing import TYPE_CHECKING, Any
 
 from .get_db_connection import get_db_connection
 from .get_ssh_connection import get_ssh_connection
 
-
-class InvalidSqlQueryError(Exception):
-    pass
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @contextlib.contextmanager
@@ -18,7 +18,7 @@ def remote_connect(
     my_cnf_path: Path,
     my_cnf_connection_name: str,
     db_name: str,
-) -> pd.DataFrame:
+) -> Generator[Any, Any, None]:
     """Connect to mysql via ssh tunnel."""
     with (
         get_ssh_connection(ssh_config_path) as local_bind_port,

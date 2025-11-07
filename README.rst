@@ -3,7 +3,7 @@
 Remote read_sql
 ===============
 
-Read SQL into a pandas data frame from a remote server
+Read data into a pandas data frame from a remote mysql server
 
 Installation
 ------------
@@ -118,4 +118,3 @@ If you have read/write permissions to your database, you may want to pass your q
 
 .. |downloads| image:: https://pepy.tech/badge/remote-read-sql
    :target: https://pepy.tech/project/remote-read-sql
-
