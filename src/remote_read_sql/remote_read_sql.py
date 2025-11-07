@@ -15,7 +15,7 @@ def remote_read_sql(
     my_cnf_path: Path,
     my_cnf_connection_name: str,
     db_name: str,
-) -> pd.DataFrame:
+) -> pd.DataFrame | None:
     """Read sql query into dataframe via ssh tunnel and mysql connection."""
     if sql_query:
         sql_query = safe_sql(sql_query)

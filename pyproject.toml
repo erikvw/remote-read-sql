@@ -16,7 +16,7 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
-requires-python = ">=3.11"
+requires-python = ">=3.10,<3.14"
 dependencies = [
     "mysqlclient>=2.2.7",
     "pandas>=2.3.3",
