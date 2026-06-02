@@ -20,7 +20,7 @@ requires-python = ">=3.11,<3.14"
 dependencies = [
     "mysqlclient>=2.2.7",
     "pandas>=2.3.3",
-    "paramiko==2.9.3",
+    "paramiko>=3.4.0",
     "python-dotenv>=1.1.1",
     "sqlalchemy>=2.0.44",
     "sqlglot>=27.28.1",
@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["uv_build>=0.9.0"]
+requires = ["uv_build>=0.10.0,<0.12.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]

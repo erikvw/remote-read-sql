@@ -15,7 +15,7 @@ def get_db_connection(
     my_cnf_path: Path,
     *,
     local_bind_port: int,
-    connection_name: str,
+    my_cnf_connection_name: str,
     db_name: str,
 ):
     """Connect to mysql via tunnel"""
@@ -28,9 +28,9 @@ def get_db_connection(
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    db_user = config[connection_name]["user"]
-    db_password = config[connection_name]["password"]
-    db_host = config[connection_name]["host"]
+    db_user = config[my_cnf_connection_name]["user"]
+    db_password = config[my_cnf_connection_name]["password"]
+    db_host = config[my_cnf_connection_name]["host"]
 
     db_password = quote_plus(db_password)
 
